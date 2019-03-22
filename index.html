@@ -1,0 +1,583 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Welcome to Tarkov</title>
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <style>
+            body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                display: grid;
+                grid-template-columns: [leftMargin] 20% [endOfLeftNav] 80% [rightMargin];
+                grid-template-rows: [topOfPage] 5% [bottomOfNavbar] 15% [bottomOfTitle] 90% [bottomOfDisplay] 5% [bottomOfPage];
+                background-color: grey;
+            }
+            #navbar {
+                grid-column-start: leftMargin;
+                grid-column-end: rightMargin;
+                grid-row-start: topOfPage;
+                grid-row-end: bottomOfNavbar;
+                display: grid;
+                grid-gap: 5px;
+                align-content: center;
+                grid-template-columns: [one] 40px [spacer1] 2px [two] 35px [spacer2] 2px [three] 50px [spacer3] 2px [four] 50px [spacer4] 2px [five] 50px [spacer5] 2px [six] 50px [spacer6];
+                background-color: grey;
+                padding-left: 15px;
+            }
+            .navSpacer {
+                background-color: black;
+            }
+            #navMaps {
+                grid-column-start: one;
+                grid-column-end: spacer1;
+            }
+            #navKeys {
+                grid-column-start: two;
+                grid-column-end: spacer2;
+            }
+            #navDealers {
+                grid-column-start: three;
+                grid-column-end: spacer3;
+            }
+            #navQuests {
+                grid-column-start: four;
+                grid-column-end: spacer4;
+            }
+            #navAmmo {
+                grid-column-start: five;
+                grid-column-end: spacer5;
+            }
+            #navItems {
+                grid-column-start: six;
+                grid-column-end: spacer6;
+            }
+            #title {
+                grid-column-start: leftMargin;
+                grid-column-end: rightMargin;
+                grid-row-start: bottomOfNavbar;
+                grid-row-end: bottomOfTitle;
+                border: 2px black solid;
+                background:darkslategray;
+                color: red;
+                text-shadow: 4px 4px #000000; 
+                font-size: 50;
+                text-align: center;
+                padding-top: 1.5%;
+            }
+            #display {
+                grid-column-start: leftMargin;
+                grid-column-end: rightMargin;
+                grid-row-start: bottomOfTitle;
+                grid-row-end: bottomOfDisplay;
+            }
+            #landingPage {
+                display: grid;
+                grid-template-columns: [leftDisplayMargin] 15% [firstColumnStart] 20% [firstColumnEnd] 5% [secondColumnStart] 20% [secondColumnEnd] 5% [thirdColumnStart] 20% [thirdColumnEnd] 20% [rightDisplayMargin];
+                grid-template-rows: [bottomOfTitle] 30% [topOfFirstRow] 100% [bottomOfFirstRow] 15% [topOfSecondRow] 100% [bottomOfSecondRow];
+            }
+            .landingPadButton {
+                text-align: center;
+                justify-items: center;
+                cursor: pointer;
+            }
+            #mapsButton {
+                grid-column-start: firstColumnStart;
+                grid-column-end: firstColumnEnd;
+                grid-row-start: topOfFirstRow;
+                grid-row-end: bottomOfFirstRow;
+                background-color: green;
+            }
+            #keysButton {
+            grid-column-start: secondColumnStart;
+            grid-column-end: secondColumnEnd;
+            grid-row-start: topOfFirstRow;
+            grid-row-end: bottomOfFirstRow;
+            background-color: orange;
+            }
+            #dealersButton {
+            grid-column-start: thirdColumnStart;
+            grid-column-end: thirdColumnEnd;
+            grid-row-start: topOfFirstRow;
+            grid-row-end: bottomOfFirstRow;
+            background-color: red;
+            }
+            #questsButton {
+            grid-column-start: firstColumnStart;
+            grid-column-end: firstColumnEnd;
+            grid-row-start: topOfSecondRow;
+            grid-row-end: bottomOfSecondRow;
+            background-color: blue;
+            }
+            #ammoButton {
+            grid-column-start: secondColumnStart;
+            grid-column-end: secondColumnEnd;
+            grid-row-start: topOfSecondRow;
+            grid-row-end: bottomOfSecondRow;
+            background-color: tan;
+            }
+            #itemsButton {
+            grid-column-start: thirdColumnStart;
+            grid-column-end: thirdColumnEnd;
+            grid-row-start: topOfSecondRow;
+            grid-row-end: bottomOfSecondRow;
+            background-color: magenta;
+            }
+            #mapPage {
+                display: grid;
+                grid-template-columns: 2% [leftDisplayMargin] 15% [leftKeyEdge] 60% [rightKeyEdge] 15% [rightDisplayMargin] 2%;
+                grid-template-rows: [bottomOftitle] 2% [topOfSelector] 4% [bottomOfSelector] 2% [topOfMap] 60% [bottomOfMap] 5% [topOfKey] 10% [bottomOfKey]; 
+            }
+            #mapSelector {
+                grid-column-start: leftKeyEdge;
+                grid-column-end: rightKeyEdge;
+                grid-row-start: topOfSelector;
+                grid-row-end: bottomOfSelector;
+                text-align: center;
+            }
+            #actualMap {
+                grid-column-start: leftDisplayMargin;
+                grid-column-end: rightDisplayMargin;
+                grid-row-start: topOfMap;
+                grid-row-end: bottomOfMap;
+            }
+            #mapKey {
+                grid-column-start: leftKeyEdge;
+                grid-column-end: rightKeyEdge;
+                grid-row-start: topOfKey;
+                grid-row-end: bottomOfKey;
+            }
+            #vendor {
+                display: grid;
+                grid-template-columns: 40% [leftTableMargin] 10% [edgeOfPic] 30% [endOfLevel] 30% [endOfReqs] 5%;
+                grid-template-rows: 1% [topofTable] 30% [bottomOfHeaders] 10% [level1] 10% [level2] 10% [level3] 10% [level4] 10% [topOfBestItems] 10% [bottomOfTable];
+                grid-gap: 5px;
+            }
+            #vendorPicture {
+                text-align: center;
+                margin-top: 5px;
+            }
+            #lvlHeader {
+                grid-column-start: leftTableMargin;
+                grid-column-end: endOfReqs;
+                grid-row-start: topOfTable;
+                grid-row-end: bottomOfHeaders;
+            }
+            #reqHeader {
+                grid-column-start: edgeOfPic;
+                grid-column-end: endOfLevel;
+                grid-row-start: topOfTable;
+                grid-row-end: bottomOfHeaders;
+            }
+            #lvl1 {
+                grid-column-start: leftTableMargin;
+                grid-column-end: edgeOfPic;
+                grid-row-start: level1;
+                grid-row-end: level2;
+            }
+            #lvl1reqs {
+                grid-column-start: edgeOfPic;
+                grid-column-end: endOfLevel;
+                grid-row-start: level1;
+                grid-row-end: level2;
+            }
+            #lvl2 {
+            grid-column-start: leftTableMargin;
+            grid-column-end: edgeOfPic;
+            grid-row-start: level2;
+            grid-row-end: level3;
+            }
+            #lvl2reqs {
+            grid-column-start: edgeOfPic;
+            grid-column-end: endOfLevel;
+            grid-row-start: level2;
+            grid-row-end: level3;
+            }
+            #lvl3 {
+            grid-column-start: leftTableMargin;
+            grid-column-end: edgeOfPic;
+            grid-row-start: level3;
+            grid-row-end: level4;
+            }
+            #lvl3reqs {
+            grid-column-start: edgeOfPic;
+            grid-column-end: endOfLevel;
+            grid-row-start: level3;
+            grid-row-end: level4;
+            }
+            #lvl4 {
+            grid-column-start: leftTableMargin;
+            grid-column-end: edgeOfPic;
+            grid-row-start: level4;
+            grid-row-end: bottomOfTable;
+            }
+            #lvl4reqs {
+            grid-column-start: edgeOfPic;
+            grid-column-end: endOfLevel;
+            grid-row-start: level4;
+            grid-row-end: topOfBestItems;
+            }
+            #bestPrices {
+                grid-column-start:leftTableMargin;
+                grid-column-end:endOfLevel;
+                grid-row-start: topOfBestItems;
+                grid-row-end: bottomOfTable;
+            }
+            #ammoIframe {
+                margin-left: 10%;
+            }
+            #keysIframe {
+                margin-left: 10%;
+            }
+            #footer {
+                grid-column-start: leftMargin;
+                grid-column-end: rightMargin;
+                grid-row-start: bottomOfDisplay;
+                grid-row-end: bottomOfPage;
+            }
+            .navBarItem {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+            <div id="navbar">
+                <div id="navMaps">
+                    <text class="navBarItem" onclick="showMaps()">Maps</text>
+                </div>
+                <div class="navSpacer">|</div>
+                <div id="navKeys">
+                    <text class="navBarItem" onclick="showKeys()">Keys</text>
+                </div>
+                <div class="navSpacer">|</div>
+                <div id="navDealers">
+                    <text class="navBarItem" onclick="showDealers()">Dealers</text>
+                </div>
+                <div class="navSpacer">|</div>
+                <div id="navQuests">
+                    <text class="navBarItem" onclick="showQuests()">Quests</text>
+                </div>
+                <div class="navSpacer">|</div>
+                <div id="navAmmo">
+                    <text class="navBarItem" onclick="showAmmo()">Ammo</text>
+                </div>
+                <div class="navSpacer">|</div>
+                <div id="navItems">
+                    <text class="navBarItem" onclick="showItems()">Items</text>
+                </div>
+            </div>
+            <div id="title">
+                Welcome To Tarkov
+            </div>
+            <div id="display">
+                <div id="landingPage">
+                    <div class="landingPadButton" id="mapsButton">
+                        <text onclick="showMaps()">See Maps</text>
+                    </div>
+                    <div class="landingPadButton" id="keysButton">
+                        <text onclick="showKeys()">See Keys</text>
+                    </div>
+                    <div class="landingPadButton" id="dealersButton">
+                        <text onclick="showDealers()">See Dealers</text></div>
+                    <div class="landingPadButton" id="questsButton">
+                        <text onclick="showQuests()">See Quests</text></div>
+                    <div class="landingPadButton" id="ammoButton">
+                        <text onclick="showAmmo()">See Ammo</text></div>
+                    <div class="landingPadButton" id="itemsButton"><text onclick="showItems()">See Items</text></div>
+                </div>
+                <div id="mapPage">
+                    <div id="mapSelector">
+                        <select id="mapSelection" onclick="chooseMap()">
+                            <option value="customs">Customs</option>
+                            <option value="factory">Factory</option>
+                            <option value="labs">Labs</option>
+                            <option value="interchange">Interchange</option>
+                            <option value="shoreline">Shoreline</option>
+                            <option value="woods">Woods</option>
+                        </select>
+                    </div>
+                    <div id="actualMap">
+                        <img id="customsMap" src="assets/images/customs.jpg" height="700px" width="1400px"/>
+                        <img id="factoryMap" src="assets/images/factory1.png" height="700px" width="1400px" />
+                        <img id="factoryMap2" src="assets/images/factory2.png" height="700px" width="1400px" />
+                        <img id="interchangeMap" src="assets/images/interchange.jpg" height="700px" width="1400px" />
+                        <img id="labsMap" src="assets/images/labs.png" height="700px" width="1400px" />
+                        <img id="shorelineMap" src="assets/images/shoreline.jpg" height="700px" width="1400px" />
+                        <img id="woodsMap" src="assets/images/woods.jpg" height="700px" width="1400px" />
+                    </div>
+                    <div id="mapKey">this means that</div>
+                </div>
+                <div id="keyPage">
+                    <iframe id="keysIframe" width="1400" height="700"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwKQ9NnMXkXEUDlzpFEz0fm609XNe8oaHYxYd92C5uaCw4Bf5a4VC5VwU4RHI7Xcbxq__UEvyBcgz/pubhtml?widget=true&amp;headers=false"></iframe>
+                </div>
+                <div id="dealersPage">
+                    <div id="vendorSelect" onchange="vendorSelect()" style="align-content: center; text-align:center;">
+                        <select id="vendorSelection">
+                            <option value="prapor">Prapor</option>
+                            <option value="therapist">Therapist</option>
+                            <option value="skier">Skier</option>
+                            <option value="fence">Fence</option>
+                            <option value="mechanic">Mechanic</option>
+                            <option value="peacekeeper">Peacekeeper</option>
+                            <option value="ragman">Ragman</option>
+                        </select>
+                    </div>
+                    <div id="vendorPicture"><img src="assets/images/prapor.jpeg" /></div>
+                    <div id="vendor">
+                        <div id="lvlHeader">Merchant Tier</div>
+                        <div id="reqHeader">Requirements</div>
+                        <div id="lvl1">1</div>
+                        <div id="lvl1reqs">None</div>
+                        <div id="lvl2">2</div>
+                        <div id="lvl2reqs">Level 15 | 1,000,000&#8381; Spent</div>
+                        <div id="lvl3">3</div>
+                        <div id="lvl3reqs">Level 22 | 1,500,000&#8381; Spent</div>
+                        <div id="lvl4">4</div>
+                        <div id="lvl4reqs">Level 33 | 2,300,000&#8381; Spent</div>
+                        <div id="bestPrices">
+                            Things to sell to him:
+                            <ul>
+                                <li>Weapons (Be sure to break them down first)</li>
+                                <li>Ammo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="questsPage">
+                    Quests
+                </div>
+                <div id="ammoPage">
+                    <iframe id="ammoIframe" width="1400" height="1000"
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR2q7p2Hxch92n6U_2NgCXPgNcwUzwHNcQcwHBuV3jpLstMcaBugub66_Hwp9T168xtAo10JSIkn1sA/pubhtml?widget=true&amp;headers=false"></iframe>
+                </div>
+                <div id="itemsPage">
+                    Items and Loots and Wishlists
+                </div>
+            </div>
+            <div id="footer">
+            </div>
+            <script>
+                $("#mapPage").hide();
+                $("#keyPage").hide();
+                $("#dealersPage").hide();
+                $("#questsPage").hide();
+                $("#ammoPage").hide();
+                $("#itemsPage").hide();
+                let currentMap = 'customs';
+                function showMaps() {
+                    $("#landingPage").hide();
+                    $("#keyPage").hide();
+                    $("#dealersPage").hide();
+                    $("#questsPage").hide();
+                    $("#ammoPage").hide();
+                    $("#itemsPage").hide();
+                    $("#mapPage").show();
+                    $("#factoryMap").hide();
+                    $("#interchangeMap").hide();
+                    $("#labsMap").hide();
+                    $("#shorelineMap").hide();
+                    $("#woodsMap").hide();
+                }
+                $("select").change(function () {
+                     var e = document.getElementById("mapSelection");
+                     var currentMap = e.options[e.selectedIndex].value;
+                     // currentMap = document.getElementById("mapSelection").value();
+                     console.log(currentMap);
+                     switch(currentMap){
+                     case "customs":
+                     $("#factoryMap").hide();
+                     $("#factoryMap2").hide();
+                     $("#interchangeMap").hide();
+                     $("#labsMap").hide();
+                     $("#shorelineMap").hide();
+                     $("#woodsMap").hide();
+                     $("#customsMap").show();
+                     break;
+                     case "factory":
+                     $("#customsMap").hide();
+                     $("#interchangeMap").hide();
+                     $("#labsMap").hide();
+                     $("#shorelineMap").hide();
+                     $("#woodsMap").hide();
+                     $("#factoryMap").show();
+                     $("#factoryMap2").show();
+                     break;
+                     case "interchange":
+                     $("#factoryMap").hide();
+                     $("#factoryMap2").hide();
+                     $("#customsMap").hide();
+                     $("#labsMap").hide();
+                     $("#shorelineMap").hide();
+                     $("#woodsMap").hide();
+                     $("#interchangeMap").show();
+                     break;
+                     case "labs":
+                     $("#factoryMap").hide();
+                     $("#factoryMap2").hide();
+                     $("#interchangeMap").hide();
+                     $("#customsMap").hide();
+                     $("#shorelineMap").hide();
+                     $("#woodsMap").hide();
+                     $("#labsMap").show();
+                     break;
+                     case "shoreline":
+                     $("#factoryMap").hide();
+                     $("#factoryMap2").hide();
+                     $("#interchangeMap").hide();
+                     $("#labsMap").hide();
+                     $("#customsMap").hide();
+                     $("#woodsMap").hide();
+                     $("#shorelineMap").show();
+                     break;
+                     case "woods":
+                     $("#factoryMap").hide();
+                     $("#factoryMap2").hide();
+                     $("#interchangeMap").hide();
+                     $("#labsMap").hide();
+                     $("#shorelineMap").hide();
+                     $("#customsMap").hide();
+                     $("#woodsMap").show();
+                     break;
+                     }
+                })
+                .change();
+
+                function vendorSelect() {
+                    vendor = $("#vendorSelection").val();
+                    switch (vendor) {
+                        case "prapor":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/prapor.jpeg'/>");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 15 & 1,000,000&#8381; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 22 & 1,500,000&#8381; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 33 & 2,300,000&#8381; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Weapons (Be sure to break them down first)</li><li>Ammo</li></ul>");
+                            break;
+                        case "therapist":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/therapist.jpeg' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 13 & 400,000&#8381; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 20 & 700,000&#8381; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 32 & 900,000&#8381; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to her:<ul><li>Medical Supplies</li><li>Random Loot (Tape, screws, etc)</li><li>Extra Keys</li></ul>");
+                            break;
+                        case "skier":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/skier.jpeg' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 15 & 1,100,000&#8381; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 28 & 1,600,000&#8381; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 35 & 2,600,000&#8381; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Weapon Attachments</li></ul>");
+                            break;
+                        case "fence":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/fence.png' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("None");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("None");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("None");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Anything No Other Trader will take</li><li>Selling things to Fence is always a last resort</li></ul>");
+                            break;
+                        case "mechanic":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/mechanic.jpeg' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 20 & 1,000,000&#8381; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 20 & 1,600,000&#8381; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 40 & 2,500,000&#8381; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Weapons (Be Sure to break them down first)</li></ul>");
+                            break;
+                        case "peacekeeper":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/peacekeeper.jpeg' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 10 & 13,000&#36; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 18 & 25,000&#36; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 29 & 32,000&#36; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Weapons (Be Sure to break them down first)</li></ul>");
+                            break;
+                        case "ragman":
+                            $("#vendorPicture").html("");
+                            $("#vendorPicture").html("<img src='assets/images/ragman.jpeg' />");
+                            $("#lvl2reqs").html("");
+                            $("#lvl2reqs").html("Level 20 & 1,000,000&#8381; Spent");
+                            $("#lvl3reqs").html("");
+                            $("#lvl3reqs").html("Level 20 & 1,600,000&#8381; Spent");
+                            $("#lvl4reqs").html("");
+                            $("#lvl4reqs").html("Level 40 & 2,500,000&#8381; Spent");
+                            $("#bestPrices").html("");
+                            $("#bestPrices").html("Things to sell to him:<ul><li>Armor</li><li>Clothing</li><li>Backpacks</li><li>Chest Rigs</li></ul>");
+                            break;
+                    }
+                }
+                
+                function showKeys() {
+                    $("#landingPage").hide();
+                    $("#mapPage").hide();
+                    $("#dealersPage").hide();
+                    $("#questsPage").hide();
+                    $("#ammoPage").hide();
+                    $("#itemsPage").hide();
+                    $("#keyPage").show();
+                }
+                function showDealers() {
+                    $("#landingPage").hide();
+                    $("#keyPage").hide();
+                    $("#mapPage").hide();
+                    $("#questsPage").hide();
+                    $("#ammoPage").hide();
+                    $("#itemsPage").hide();
+                    $("#dealersPage").show();
+                }
+                function showQuests() {
+                    $("#landingPage").hide();
+                    $("#keyPage").hide();
+                    $("#dealersPage").hide();
+                    $("#mapPage").hide();
+                    $("#ammoPage").hide();
+                    $("#itemsPage").hide();
+                    $("#questsPage").show();
+                }
+                function showAmmo() {
+                    $("#landingPage").hide();
+                    $("#keyPage").hide();
+                    $("#dealersPage").hide();
+                    $("#questsPage").hide();
+                    $("#mapPage").hide();
+                    $("#itemsPage").hide();
+                    $("#ammoPage").show();
+                }
+                function showItems() {
+                    $("#landingPage").hide();
+                    $("#keyPage").hide();
+                    $("#dealersPage").hide();
+                    $("#questsPage").hide();
+                    $("#ammoPage").hide();
+                    $("#mapPage").hide();
+                    $("#itemsPage").show();
+                }
+            </script>
+    </body>
+</html>
