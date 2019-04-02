@@ -316,11 +316,15 @@
                         <img id="shorelineMap" src="assets/images/shoreline.jpg" height="700px" width="1400px" />
                         <img id="woodsMap" src="assets/images/woods.jpg" height="700px" width="1400px" />
                     </div>
-                    <div id="mapKey">this means that</div>
+                    <!-- <div id="mapKey">this means that</div> -->
                 </div>
                 <div id="keyPage">
                     <iframe id="keysIframe" width="1400" height="700"
                         src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwKQ9NnMXkXEUDlzpFEz0fm609XNe8oaHYxYd92C5uaCw4Bf5a4VC5VwU4RHI7Xcbxq__UEvyBcgz/pubhtml?widget=true&amp;headers=false"></iframe>
+                </div>
+                <div id="myKeys">
+                    <!-- Input checklist of keys, save the data locally to keep the data after refresh -->
+                    
                 </div>
                 <div id="dealersPage">
                     <div id="vendorSelect" onchange="vendorSelect()" style="align-content: center; text-align:center;">
@@ -1762,6 +1766,7 @@
                     $("#itemsPage").hide();
                     $("#mapPage").show();
                     $("#factoryMap").hide();
+                    $("#factoryMap2").hide();
                     $("#interchangeMap").hide();
                     $("#labsMap").hide();
                     $("#shorelineMap").hide();
@@ -2056,6 +2061,9 @@
                     $("#ammoPage").hide();
                     $("#itemsPage").hide();
                     $("#dealersPage").show();
+                    
+
+
                 }
                 function showQuests() {
                     $("#landingPage").hide();
@@ -2072,6 +2080,11 @@
                     $("#fenceQuestPic").hide();
                     $("#mechanicQuestPic").hide();
                     $("#therapistQuestTable").hide();
+                    $("#skierQuestTable").hide();
+                    $("#mechanicQuestTable").hide();
+                    $("#fenceQuestTable").hide();
+                    $("#peacekeeperQuestTable").hide();
+                    $("#ragmanQuestTable").hide();
                 }
                 function showAmmo() {
                     $("#landingPage").hide();
